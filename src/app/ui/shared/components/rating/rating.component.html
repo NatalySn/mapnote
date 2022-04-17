@@ -1,0 +1,13 @@
+<div class="stars-container">
+  <button class="star-button"
+  [formControl]="formControl"
+          *ngFor="let isSelected of stars; index as index"
+          [class.is-selected]="isSelected"
+          [disabled]="isDisabled"
+          (click) = "isDisabled=true"
+          (click)="onClickStar(index)"
+          >
+          
+    <mn-icon iconName="star" class="star-icon"></mn-icon>
+  </button>
+</div>
