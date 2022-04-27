@@ -55,7 +55,17 @@ export class RatingComponent implements OnInit, ControlValueAccessor {
   }
 
   public onClickStar(index: number): void {
-    this.writeValue(index + 1);
+    const newStars: boolean[] = new Array(this.stars.length).fill(false)
+
+    for (let i = 0; i < newStars.length; i++) {
+      newStars[ i ] = true
+
+      if (i === index) {
+        break
+      }
+    }
+
+    this.stars = newStars
     this.updateFormControlTouchState()
     this.updateFormControlValue(this.stars.filter(isSelected => isSelected).length)
   }

@@ -11,7 +11,7 @@ import { PlaceService } from "../../../shared/api/place.service"
 })
 export class PlaceEditComponent implements OnInit {
   public form: FormGroup = new FormGroup({
-    name: new FormControl(),
+    name: new FormControl(null, Validators.required),
     rating: new FormControl(0, Validators.min(1)),
     description: new FormControl(),
     tags: new FormControl([]),
@@ -26,8 +26,8 @@ export class PlaceEditComponent implements OnInit {
   }
 
   public onClickCancelButton(): void {
-    this.dialogService.showDialog(this.dialogService.dialogs.MapView)
     this.form.reset()
+    this.dialogService.close()
   }
 
   public onClickSaveButton(): void {
@@ -51,6 +51,6 @@ export class PlaceEditComponent implements OnInit {
           alert("Все плохо")
           console.error(error)
         })
-    this.dialogService.showDialog(this.dialogService.dialogs.MapView)
+    this.dialogService.close()
   }
 }

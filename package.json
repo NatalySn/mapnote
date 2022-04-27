@@ -3,10 +3,11 @@
   "version": "2022.03.0",
   "scripts": {
     "start": "ng serve",
+    "start:open": "ng serve --host 0.0.0.0",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "start-fake-db": "json-server --watch ./db.json"
+    "start-fake-db": "json-server --watch ./db.json --host 0.0.0.0"
   },
   "private": true,
   "dependencies": {
@@ -20,8 +21,8 @@
     "@angular/router": "13.1.0",
     "@types/leaflet": "1.7.9",
     "leaflet": "1.7.1",
-    "markdown-to-html-converter": "1.0.4",
     "rxjs": "7.4.0",
+    "snarkdown": "^2.0.0",
     "tslib": "2.3.0",
     "zone.js": "0.11.4"
   },
