@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core"
+import { Component, ElementRef, OnInit } from "@angular/core"
 import { FormControl } from "@angular/forms"
 import { LeafletMouseEvent } from "leaflet"
 import { DialogService } from "../../../../dialog.service"
@@ -13,8 +13,10 @@ export class ShellComponent implements OnInit {
   public isShowAddButton: boolean = false
   public searchFormControl: FormControl = new FormControl()
 
-  constructor(private mapService: MapService,
-              private dialogService: DialogService) {
+  constructor(
+    private mapService: MapService,
+    private element: ElementRef<HTMLElement>,
+    private dialogService: DialogService) {
   }
 
   public ngOnInit(): void {
@@ -22,6 +24,10 @@ export class ShellComponent implements OnInit {
       map.addEventListener("click", (event: LeafletMouseEvent) => {
         this.isShowAddButton = true
         this.dialogService.isCurrentEditLatLng = event.latlng
+      })
+
+      this.element.nativeElement.addEventListener("click", () => {
+        this.isShowAddButton = false
       })
     })
   }
@@ -31,6 +37,6 @@ export class ShellComponent implements OnInit {
   }
 
   public onClickAddButton(): void {
-    this.dialogService.isShowCreateOrEditDialog = true
+    this.dialogService.showDialog(this.dialogService.dialogs.PlaceEdit)
   }
 }

@@ -1,10 +1,8 @@
-import { HttpClient } from "@angular/common/http"
 import { Component, OnInit } from "@angular/core"
 import { FormControl, FormGroup, Validators } from "@angular/forms"
-import { firstValueFrom } from "rxjs"
-import { RatingComponent } from "src/app/ui/shared/components/rating/rating.component"
 import { DialogService } from "../../../../dialog.service"
 import { Coordinates } from "../../../../domain/coordinates"
+import { PlaceService } from "../../../shared/api/place.service"
 
 @Component({
   selector: "mn-place-edit",
@@ -21,22 +19,15 @@ export class PlaceEditComponent implements OnInit {
   })
 
   constructor(private dialogService: DialogService,
-              private httpClient: HttpClient) {
-              if (this.form.get('rating').value) {
-                this.form.get('rating').disable()
-              }
-             
-              
-    console.log(this.form.get('rating'))
-
+              public placeService: PlaceService) {
   }
 
   public ngOnInit(): void {
   }
 
   public onClickCancelButton(): void {
+    this.dialogService.showDialog(this.dialogService.dialogs.MapView)
     this.form.reset()
-    this.dialogService.isShowCreateOrEditDialog = false
   }
 
   public onClickSaveButton(): void {
@@ -52,6 +43,14 @@ export class PlaceEditComponent implements OnInit {
       longitude: latlng.lng
     }
 
-    firstValueFrom(this.httpClient.post(`http://localhost:3000/places`, { ...formValue, coordinates: coordinates })).then(console.log)
+    this.placeService.create({ ...formValue, coordinates: coordinates })
+        .then(() => {
+          alert("Все хорошо")
+        })
+        .catch((error) => {
+          alert("Все плохо")
+          console.error(error)
+        })
+    this.dialogService.showDialog(this.dialogService.dialogs.MapView)
   }
 }
